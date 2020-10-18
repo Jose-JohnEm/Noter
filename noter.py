@@ -1,5 +1,6 @@
 from sys import argv as av
 from datetime import datetime
+from os import remove
 
 class bcolors:
     HEADER = '\033[95m'
@@ -12,15 +13,34 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+def princ(color, text):
+    print(color + text + bcolors.ENDC, end="")
+
+def printer(f):
+    princ(bcolors.BOLD + bcolors.HEADER, f.read(11))
+    princ(bcolors.OKBLUE, f.read(3))
+    princ(bcolors.WARNING, f.read() + "\n")
+
+def catch(av):
+
+    for i in range(0, len(av)):
+        if av[i] == "delete":
+            try:
+                remove(".not")
+            except:
+                print("You don't have any notes")
+            exit(0)
+
 
 def start(av):
+
+    catch(av)
+
     try:
         f = open(".not", "r")
 
-        print(bcolors.BOLD + bcolors.HEADER + f.read(11) + bcolors.ENDC, end="")
-        print(bcolors.OKBLUE + f.read(3) + bcolors.ENDC, end="")
-        print(bcolors.WARNING + f.read() + bcolors.ENDC)
-        f.close
+        printer(f)
+        f.close()
     except:
         f = open(".not", "a")
         note = input()
